@@ -15,7 +15,7 @@ tomar seus medicamentos nos horários corretos.
 - if/else para controle de entrada de váriaveis
 
 ## Como executar
-1. Clone o repositório: "git clone https://github.com/usuario/helplembra.git"
+1. Clone o repositório: "git clone https://github.com/06004/A3_MedLembra.git"
 2. Compile: "javac src/*.java"
 3. Execute: "java src/Main"
 
