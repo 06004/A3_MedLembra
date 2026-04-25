@@ -20,7 +20,7 @@ tomar seus medicamentos nos horários corretos.
 3. Execute: "java src/Main"
 
 ## Autores
-- Sara Luiza Alves da Silva  - RA: 
--
+- Sara Luiza Alves da Silva  - RA: 12524236684
+- Thiago Passari Santos  - RA: 12526163002
 
 ## Projeto de A3 Universidade Anhembi Morumbi
