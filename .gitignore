@@ -1,0 +1,21 @@
+# 1. Java: Ignorar arquivos compilados (os "binários")
+# O Git deve guardar apenas o .java (receita), não o .class (bolo pronto)
+*.class
+
+# 2. IDEs: Ignorar pastas de configuração dos editores
+# Cada programador utiliza um editor diferente (VS Code, IntelliJ, Eclipse)
+.vscode/
+.idea/
+*.iml
+.settings/
+.classpath
+.project
+
+# 3. Sistema Operacional: Arquivos inúteis do Windows
+Thumbs.db
+.DS_Store
+
+# 4. Temporários do Google Drive 
+# Isso evita conflitos de sincronização no Drive
+~*
+.tmp
