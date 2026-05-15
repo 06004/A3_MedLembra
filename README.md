@@ -11,7 +11,6 @@ O MedLembra é um sistema desenvolvido em Java para ajudar idosos a lembrarem de
 - Validações de entrada (nome, idade, horário)
 - Tratamento de exceções customizadas
 - Salvamento dos dados em arquivo CSV
-- Conceitos de POO Aplicados
 
 ## Tecnologias utilizadas
 - Java 21
