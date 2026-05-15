@@ -1,5 +1,3 @@
-
-
 import view.MenuPrincipal;
 
 public class Main {
