@@ -18,7 +18,7 @@ O MedLembra é um sistema desenvolvido em Java para ajudar idosos a lembrarem de
 - ```do/while``` e ```switch/case``` para criação de um menu interativo
 - ```if/else``` para controle de entrada de variáveis
 - **Herança:** Idoso e Cuidador herdam de Pessoa (classe abstrata)
-- **Polimorfismo:** Método abstrato ```exibirPerfil( )``` sobrescrito nas subclasses
+- **Polimorfismo:** Método abstrato ```exibirPerfil()``` sobrescrito nas subclasses
 - **Encapsulamento:** Atributos privados com ```getters/setters```
 - **Sobrecarga:** Construtores e métodos de adicionar medicamento
 
