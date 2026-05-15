@@ -1,12 +1,16 @@
 # MedLembra - Sistema de Lembrete
 ## Descrição
-O MedLembra é um sistema desenvolvido em Java para ajudar idosos a lembrarem de
-tomar seus medicamentos nos horários corretos.
+O MedLembra é um sistema desenvolvido em Java para ajudar idosos a lembrarem de tomar seus medicamentos nos horários corretos, com suporte de cuidadores.
 
 ## Funcionalidades
-- Cadastro de pessoas (idosos)
-- Cadastro de medicamentos
-- Listagem de pessoas cadatradas, com cada paciente possuindo sua própria lista de medicamentos
+- Cadastro, listagem e remoção de idosos
+- Cadastro, listagem e remoção de cuidadores
+- Cadastro e listagem de medicamentos por idoso
+- Associação de cuidador a idoso
+- Listagem de todas as pessoas cadastradas
+- Validações de entrada (nome, idade, horário)
+- Tratamento de exceções customizadas
+- Salvamento dos dados em arquivo CSV
 
 ## Tecnologias utilizadas
 - Java 21
@@ -16,8 +20,8 @@ tomar seus medicamentos nos horários corretos.
 
 ## Como executar
 1. Clone o repositório: "git clone https://github.com/06004/A3_MedLembra.git"
-2. Compile: "javac src/*.java"
-3. Execute: "java src/Main"
+2. Compile: "javac *.java"
+3. Execute: "java Main"
 
 ## Autores
 - Sara Luiza Alves da Silva  - RA: 12524236684
