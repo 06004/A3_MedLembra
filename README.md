@@ -11,17 +11,22 @@ O MedLembra é um sistema desenvolvido em Java para ajudar idosos a lembrarem de
 - Validações de entrada (nome, idade, horário)
 - Tratamento de exceções customizadas
 - Salvamento dos dados em arquivo CSV
+- Conceitos de POO Aplicados
 
 ## Tecnologias utilizadas
 - Java 21
 - ArrayList para armazenamento em memória
 - do/while e switch/case para criação de um menu interativo
 - if/else para controle de entrada de váriaveis
+- **Herança:** Idoso e Cuidador herdam de Pessoa (classe abstrata)
+- **Polimorfismo:** Método abstrato exibirPerfil() sobrescrito nas subclasses
+- **Encapsulamento:** Atributos privados com getters/setters
+- **Sobrecarga:** Construtores e métodos de adicionar medicamento
 
 ## Como executar
 1. Clone o repositório: "git clone https://github.com/06004/A3_MedLembra.git"
-2. Compile: "javac *.java"
-3. Execute: "java Main"
+2. Compile: "javac src/*.java"
+3. Execute: "java src/Main"
 
 ## Autores
 - Sara Luiza Alves da Silva  - RA: 12524236684
