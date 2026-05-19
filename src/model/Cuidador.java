@@ -2,6 +2,10 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ * Representa um cuidador no sistema.
+ * Herda de Pessoa e possui uma lista de idosos sob cuidado.
+ */
 public class Cuidador extends Pessoa {
     private ArrayList<Idoso> idososSobCuidado;
 
@@ -18,7 +22,6 @@ public class Cuidador extends Pessoa {
         return idososSobCuidado;
     }
 
-
     @Override
     public String exibirPerfil() {
         return "Cuidador: " + getNome() + " | Idosos sob cuidado: " + idososSobCuidado.size();
@@ -28,7 +31,7 @@ public class Cuidador extends Pessoa {
     public String toString() {
         StringBuilder sb = new StringBuilder(super.toString());
         sb.append(" | Idosos: ");
-        
+
         if (idososSobCuidado.isEmpty()) {
             sb.append("nenhum");
         } else {

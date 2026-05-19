@@ -1,9 +1,9 @@
 package view;
 
 /**
-* Enum que define as opções do menu principal.
-* Evita números mágicos e centraliza as descrições.
-*/
+ * Enum que define as opções do menu principal.
+ * Evita números mágicos e centraliza as descrições.
+ */
 public enum OpcaoMenu {
     GERENCIAR_IDOSOS(1, "Gerenciar Idosos"),
     GERENCIAR_CUIDADORES(2, "Gerenciar Cuidadores"),
@@ -12,7 +12,8 @@ public enum OpcaoMenu {
     LISTAR_TODOS(5, "Listar todas as pessoas"),
     REMOVER(6, "Remover pessoa"),
     SALVAR_DADOS(7, "Salvar dados em arquivo"),
-    SAIR(8, "Sair");
+    CARREGAR_DADOS(8, "Carregar dados do arquivo"),
+    SAIR(9, "Sair");
 
     private final int codigo;
     private final String descricao;

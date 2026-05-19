@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Representa um medicamento com nome e horário de administração.
+ */
 public class Medicamento {
     private String nomeMedicamento;
     private String horario;

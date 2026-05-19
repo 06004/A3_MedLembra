@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * Classe abstrata que representa uma pessoa no sistema.
+ * Serve como base para Idoso e Cuidador.
+ */
 public abstract class Pessoa {
     private String nome;
     private int idade;
@@ -35,6 +39,10 @@ public abstract class Pessoa {
         this.telefone = telefone;
     }
 
+    /**
+     * Método abstrato para exibição de perfil.
+     * Cada subclasse implementa de forma específica.
+     */
     public abstract String exibirPerfil();
 
     @Override
