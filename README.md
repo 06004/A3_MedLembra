@@ -1,54 +1,25 @@
-<<<<<<< HEAD
-# MedLembra - Sistema de Lembrete de Medicamentos
-
-Sistema desenvolvido em Java para ajudar idosos a lembrarem de tomar seus medicamentos nos horários corretos, com suporte de cuidadores.
-
-## 👥 Integrantes
-=======
 # MedLembra - Sistema de Lembrete
-## Descrição
+
 O MedLembra é um sistema desenvolvido em Java para ajudar idosos a lembrarem de tomar seus medicamentos nos horários corretos, com suporte de cuidadores.
 
-## Funcionalidades
-- Cadastro, listagem e remoção de idosos
-- Cadastro, listagem e remoção de cuidadores
-- Cadastro e listagem de medicamentos por idoso
-- Associação de cuidador a idoso
-- Listagem de todas as pessoas cadastradas
-- Validações de entrada (nome, idade, horário)
-- Tratamento de exceções customizadas
-- Salvamento dos dados em arquivo CSV
-
-## Tecnologias utilizadas
-- Java 21
-- ArrayList para armazenamento em memória
-- ```do/while``` e ```switch/case``` para criação de um menu interativo
-- ```if/else``` para controle de entrada de variáveis
-- **Herança:** Idoso e Cuidador herdam de Pessoa (classe abstrata)
-- **Polimorfismo:** Método abstrato ```exibirPerfil()``` sobrescrito nas subclasses
-- **Encapsulamento:** Atributos privados com ```getters/setters```
-- **Sobrecarga:** Construtores e métodos de adicionar medicamento
->>>>>>> 88f568af6b19fd980028cd8f802e8c39c9ca28fa
+## 👥 Integrantes
 
 - **Sara Luiza Alves da Silva** - RA: 12524236684
 - **Thiago Passari Santos** - RA: 12526163002
 
-## 🏫 Instituição
-
-Universidade Anhembi Morumbi  
-Disciplina: Algoritmos e Programação + Programação Orientada a Objetos  
-Professores: Cassia Assis e Jader de Amorim
 
 ## ✨ Funcionalidades
 
-- Cadastro, listagem e remoção de idosos
+Cadastro, listagem e remoção de idosos
 - Cadastro, listagem e remoção de cuidadores
 - Cadastro e listagem de medicamentos por idoso
 - Associação de cuidador a idoso
 - Listagem de todas as pessoas cadastradas
 - Validações de entrada (nome, idade, horário, telefone)
 - Tratamento de exceções customizadas
-- Salvamento e carregamento dos dados em arquivo CSV
+- Salvamento dos dados em arquivo CSV
+- Carregamento dos dados do arquivo CSV
+- Alarme que avisa quando é hora de tomar o medicamento
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -65,6 +36,13 @@ Professores: Cassia Assis e Jader de Amorim
 - **Enum:** `OpcaoMenu` elimina números mágicos
 - **Streams + Optional:** Código moderno e funcional
 - **Exceções Customizadas:** `ValidacaoException` e `PessoaNaoEncontradaException`
+- LocalTime
+
+## 🏫 Instituição
+
+Universidade Anhembi Morumbi  
+Disciplina: Algoritmos e Programação + Programação Orientada a Objetos + Programação de Soluções Computacionais
+Professores: Cassia Assis e Jader de Amorim
 
 ## 📁 Estrutura de Pacotes
 
