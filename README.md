@@ -55,6 +55,7 @@ src/
 │   ├── Cuidador.java
 │   └── Medicamento.java
 ├── service/
+│   └── AlarmeService.java
 │   └── IPessoaService.java (interface)
 ├── controller/
 │   └── PessoaController.java (Singleton)
@@ -62,6 +63,7 @@ src/
 │   ├── ValidacaoException.java
 │   └── PessoaNaoEncontradaException.java
 ├── util/
+│   └── FormatadorAlarme.java
 │   └── Validador.java
 ├── view/
 │   ├── OpcaoMenu.java (enum)
@@ -97,7 +99,7 @@ O diagrama de classes está disponível no repositório e reflete a arquitetura 
 - Composição (Idoso → Medicamento)
 - Associação (Cuidador → Idoso)
 - Realização de interface (PessoaController → IPessoaService)
-- Dependências (MenuPrincipal → PessoaController, Validador)
+- Dependências (MenuPrincipal → PessoaController, Validador e PessoaController → AlarmeService → FormatadorAlarme)
 
 ## 📝 Notas
 
