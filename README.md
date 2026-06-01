@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # MedLembra - Sistema de Lembrete de Medicamentos
 
 Sistema desenvolvido em Java para ajudar idosos a lembrarem de tomar seus medicamentos nos horários corretos, com suporte de cuidadores.
@@ -6,21 +5,18 @@ Sistema desenvolvido em Java para ajudar idosos a lembrarem de tomar seus medica
 # MedLembra - Sistema de Lembrete
 
 O MedLembra é um sistema desenvolvido em Java para ajudar idosos a lembrarem de tomar seus medicamentos nos horários corretos, com suporte de cuidadores.
->>>>>>> 8922515417833d73c54c24c71809dd61c8b251bd
 
 ## 👥 Integrantes
 
 - **Sara Luiza Alves da Silva** - RA: 12524236684
 - **Thiago Passari Santos** - RA: 12526163002
 
-<<<<<<< HEAD
 ## 🏫 Instituição
 
 Universidade Anhembi Morumbi  
 Disciplina: Algoritmos e Programação + Programação de Soluções Computacionais  
 Professores: Cassia Assis e Jader de Amorim
 =======
->>>>>>> 8922515417833d73c54c24c71809dd61c8b251bd
 
 ## ✨ Funcionalidades
 
@@ -52,11 +48,6 @@ Cadastro, listagem e remoção de idosos
 - **Exceções Customizadas:** `ValidacaoException` e `PessoaNaoEncontradaException`
 - LocalTime
 
-## 🏫 Instituição
-
-Universidade Anhembi Morumbi  
-Disciplina: Algoritmos e Programação + Programação Orientada a Objetos + Programação de Soluções Computacionais
-Professores: Cassia Assis e Jader de Amorim
 
 ## 📁 Estrutura de Pacotes
 
