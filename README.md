@@ -1,28 +1,39 @@
+<<<<<<< HEAD
 # MedLembra - Sistema de Lembrete de Medicamentos
 
 Sistema desenvolvido em Java para ajudar idosos a lembrarem de tomar seus medicamentos nos horários corretos, com suporte de cuidadores.
+=======
+# MedLembra - Sistema de Lembrete
+
+O MedLembra é um sistema desenvolvido em Java para ajudar idosos a lembrarem de tomar seus medicamentos nos horários corretos, com suporte de cuidadores.
+>>>>>>> 8922515417833d73c54c24c71809dd61c8b251bd
 
 ## 👥 Integrantes
 
 - **Sara Luiza Alves da Silva** - RA: 12524236684
 - **Thiago Passari Santos** - RA: 12526163002
 
+<<<<<<< HEAD
 ## 🏫 Instituição
 
 Universidade Anhembi Morumbi  
 Disciplina: Algoritmos e Programação + Programação de Soluções Computacionais  
 Professores: Cassia Assis e Jader de Amorim
+=======
+>>>>>>> 8922515417833d73c54c24c71809dd61c8b251bd
 
 ## ✨ Funcionalidades
 
-- Cadastro, listagem e remoção de idosos
+Cadastro, listagem e remoção de idosos
 - Cadastro, listagem e remoção de cuidadores
 - Cadastro e listagem de medicamentos por idoso
 - Associação de cuidador a idoso
 - Listagem de todas as pessoas cadastradas
 - Validações de entrada (nome, idade, horário, telefone)
 - Tratamento de exceções customizadas
-- Salvamento e carregamento dos dados em arquivo CSV
+- Salvamento dos dados em arquivo CSV
+- Carregamento dos dados do arquivo CSV
+- Alarme que avisa quando é hora de tomar o medicamento
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -39,6 +50,13 @@ Professores: Cassia Assis e Jader de Amorim
 - **Enum:** `OpcaoMenu` elimina números mágicos
 - **Streams + Optional:** Código moderno e funcional
 - **Exceções Customizadas:** `ValidacaoException` e `PessoaNaoEncontradaException`
+- LocalTime
+
+## 🏫 Instituição
+
+Universidade Anhembi Morumbi  
+Disciplina: Algoritmos e Programação + Programação Orientada a Objetos + Programação de Soluções Computacionais
+Professores: Cassia Assis e Jader de Amorim
 
 ## 📁 Estrutura de Pacotes
 
@@ -51,6 +69,7 @@ src/
 │   ├── Cuidador.java
 │   └── Medicamento.java
 ├── service/
+│   └── AlarmeService.java
 │   └── IPessoaService.java (interface)
 ├── controller/
 │   └── PessoaController.java (Singleton)
@@ -58,6 +77,7 @@ src/
 │   ├── ValidacaoException.java
 │   └── PessoaNaoEncontradaException.java
 ├── util/
+│   └── FormatadorAlarme.java
 │   └── Validador.java
 ├── view/
 │   ├── OpcaoMenu.java (enum)
@@ -93,7 +113,7 @@ O diagrama de classes está disponível no repositório e reflete a arquitetura 
 - Composição (Idoso → Medicamento)
 - Associação (Cuidador → Idoso)
 - Realização de interface (PessoaController → IPessoaService)
-- Dependências (MenuPrincipal → PessoaController, Validador)
+- Dependências (MenuPrincipal → PessoaController, Validador e PessoaController → AlarmeService → FormatadorAlarme)
 
 ## 📝 Notas
 
