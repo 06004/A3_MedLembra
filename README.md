@@ -2,10 +2,6 @@
 
 Sistema desenvolvido em Java para ajudar idosos a lembrarem de tomar seus medicamentos nos horários corretos, com suporte de cuidadores.
 
-# MedLembra - Sistema de Lembrete
-
-O MedLembra é um sistema desenvolvido em Java para ajudar idosos a lembrarem de tomar seus medicamentos nos horários corretos, com suporte de cuidadores.
-
 ## 👥 Integrantes
 
 - **Sara Luiza Alves da Silva** - RA: 12524236684
