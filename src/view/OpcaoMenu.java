@@ -1,8 +1,8 @@
 package view;
 
 /**
- * Enum que define as opções do menu principal.
- * Evita números mágicos e centraliza as descrições.
+ * Enum que representa as opções do menu principal.
+ * Elimina números mágicos e melhora legibilidade.
  */
 public enum OpcaoMenu {
     GERENCIAR_IDOSOS(1, "Gerenciar Idosos"),
@@ -11,9 +11,10 @@ public enum OpcaoMenu {
     ASSOCIAR(4, "Associar Cuidador a Idoso"),
     LISTAR_TODOS(5, "Listar todas as pessoas"),
     REMOVER(6, "Remover pessoa"),
-    SALVAR_DADOS(7, "Salvar dados em arquivo"),
-    CARREGAR_DADOS(8, "Carregar dados do arquivo"),
-    SAIR(9, "Sair");
+    HISTORICO_ALARMES(7, "Ver histórico de alarmes"),
+    SALVAR_DADOS(8, "Salvar dados em arquivo"),
+    CARREGAR_DADOS(9, "Carregar dados do arquivo"),
+    SAIR(10, "Sair");
 
     private final int codigo;
     private final String descricao;
@@ -23,13 +24,8 @@ public enum OpcaoMenu {
         this.descricao = descricao;
     }
 
-    public int getCodigo() {
-        return codigo;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
+    public int getCodigo() { return codigo; }
+    public String getDescricao() { return descricao; }
 
     public static OpcaoMenu fromCodigo(int codigo) {
         for (OpcaoMenu op : values()) {

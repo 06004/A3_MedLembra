@@ -2,6 +2,8 @@ package controller;
 
 import exception.*;
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import model.*;
@@ -12,16 +14,14 @@ import service.IPessoaService;
  * Controlador principal que implementa IPessoaService.
  * Utiliza SINGLETON para garantir uma única instância.
  * Usa Optional para evitar null.
- * 
- * CORREÇÕES:
- * - Generics em todas as listas (List<Pessoa>, List<Idoso>, List<Cuidador>)
- * - Carregamento de dados CSV implementado
- * - Sincronização thread-safe no Singleton
  */
 public class PessoaController implements IPessoaService {
     private static PessoaController instancia;
     private final List<Pessoa> pessoas;
-    private final AlarmeService alarmeService = new AlarmeService(); // Instância do serviço de alarme
+    private final AlarmeService alarmeService = new AlarmeService();
+
+    // MELHORIA: Histórico de alarmes disparados
+    private final List<String> historicoAlarmes = new ArrayList<>();
 
     // Construtor privado (Singleton)
     private PessoaController() {
@@ -41,6 +41,16 @@ public class PessoaController implements IPessoaService {
         if (p.getNome() == null || p.getNome().isBlank()) {
             throw new ValidacaoException("Nome da pessoa não pode ser vazio.");
         }
+
+        // MELHORIA: Impede cadastro duplicado por nome
+        boolean jaExiste = pessoas.stream()
+                .anyMatch(x -> x.getNome().equalsIgnoreCase(p.getNome())
+                        && x.getClass().equals(p.getClass()));
+        if (jaExiste) {
+            throw new ValidacaoException("Já existe um(a) "
+                    + p.getClass().getSimpleName() + " com o nome '" + p.getNome() + "'.");
+        }
+
         pessoas.add(p);
     }
 
@@ -51,8 +61,10 @@ public class PessoaController implements IPessoaService {
 
     @Override
     public Pessoa buscarPorNome(String nome) throws PessoaNaoEncontradaException {
+        // MELHORIA: Busca por nome parcial (contém)
         Optional<Pessoa> resultado = pessoas.stream()
-                .filter(p -> p.getNome().equalsIgnoreCase(nome))
+                .filter(p -> p.getNome().equalsIgnoreCase(nome)
+                        || p.getNome().toLowerCase().contains(nome.toLowerCase()))
                 .findFirst();
         return resultado.orElseThrow(() -> new PessoaNaoEncontradaException(nome));
     }
@@ -79,6 +91,15 @@ public class PessoaController implements IPessoaService {
                 .collect(Collectors.toList());
     }
 
+    // MELHORIA: Contador de pessoas
+    public int totalIdosos() {
+        return (int) pessoas.stream().filter(p -> p instanceof Idoso).count();
+    }
+
+    public int totalCuidadores() {
+        return (int) pessoas.stream().filter(p -> p instanceof Cuidador).count();
+    }
+
     @Override
     public void adicionarMedicamentoAoIdoso(String nomeIdoso, Medicamento m)
             throws PessoaNaoEncontradaException, ValidacaoException {
@@ -88,22 +109,24 @@ public class PessoaController implements IPessoaService {
 
         Pessoa p = buscarPorNome(nomeIdoso);
 
-        if (p instanceof Idoso) {
-            ((Idoso) p).adicionarMedicamento(m);
-            String idAlarme = nomeIdoso + "-" + m.getNome();
-            alarmeService.agendarMedicamento(idAlarme, m, nomeIdoso);
+        if (p instanceof Idoso idoso) {
+            idoso.adicionarMedicamento(m);
+            String idAlarme = idoso.getNome() + "-" + m.getNome();
+
+            // MELHORIA: Agenda alarme e registra no histórico quando disparar
+            alarmeService.agendarMedicamento(idAlarme, m, idoso.getNome(), historicoAlarmes);
         } else {
             throw new PessoaNaoEncontradaException(nomeIdoso + " não é um idoso.");
         }
     }
 
-    public void removerMedicamento(String nomeIdoso, String nomeMedicamento) throws PessoaNaoEncontradaException {
+    public void removerMedicamento(String nomeIdoso, String nomeMedicamento)
+            throws PessoaNaoEncontradaException {
         Pessoa p = buscarPorNome(nomeIdoso);
 
         if (p instanceof Idoso idoso) {
-
             idoso.getMedicamentos().removeIf(m -> m.getNome().equalsIgnoreCase(nomeMedicamento));
-            String idAlarme = nomeIdoso + "-" + nomeMedicamento;
+            String idAlarme = idoso.getNome() + "-" + nomeMedicamento;
             alarmeService.cancelarAlarme(idAlarme);
         } else {
             throw new PessoaNaoEncontradaException(nomeIdoso + " não é um idoso.");
@@ -127,13 +150,17 @@ public class PessoaController implements IPessoaService {
         ((Cuidador) c).adicionarIdoso((Idoso) i);
     }
 
-    // PERSISTÊNCIA EM CSV - SALVAMENTO
+    // MELHORIA: Retorna histórico de alarmes
+    public List<String> getHistoricoAlarmes() {
+        return Collections.unmodifiableList(historicoAlarmes);
+    }
+
     @Override
     public void salvarDados(String caminho) throws Exception {
         try (PrintWriter pw = new PrintWriter(new FileWriter(caminho))) {
             for (Pessoa p : pessoas) {
-                pw.print(p.getClass().getSimpleName() + ";" + p.getNome() + ";" +
-                        p.getIdade() + ";" + p.getTelefone());
+                pw.print(p.getClass().getSimpleName() + ";" + p.getNome() + ";"
+                        + p.getIdade() + ";" + p.getTelefone());
 
                 if (p instanceof Idoso) {
                     for (Medicamento m : ((Idoso) p).getMedicamentos()) {
@@ -149,7 +176,6 @@ public class PessoaController implements IPessoaService {
         }
     }
 
-    // PERSISTÊNCIA EM CSV - CARREGAMENTO (AGORA IMPLEMENTADO!)
     @Override
     public void carregarDados(String caminho) throws Exception {
         File arquivo = new File(caminho);
@@ -157,7 +183,7 @@ public class PessoaController implements IPessoaService {
             throw new FileNotFoundException("Arquivo não encontrado: " + caminho);
         }
 
-        pessoas.clear(); // Limpa dados atuais
+        pessoas.clear();
 
         try (BufferedReader br = new BufferedReader(new FileReader(caminho))) {
             String linha;
@@ -174,26 +200,18 @@ public class PessoaController implements IPessoaService {
 
                 if (tipo.equals("Idoso")) {
                     Idoso idoso = new Idoso(nome, idade, telefone);
-                    // Processa medicamentos (a partir do índice 4)
                     for (int i = 4; i < partes.length; i++) {
                         String[] medPartes = partes[i].split(",");
-                        
                         if (medPartes.length == 2) {
-                            // Cria medicamento e adiciona ao idoso
                             Medicamento m = new Medicamento(medPartes[0], medPartes[1]);
                             idoso.adicionarMedicamento(m);
-                            // Agenda alarme para o medicamento
                             String idAlarme = nome + "-" + m.getNome();
-                            alarmeService.agendarMedicamento(idAlarme, m, nome);
-
+                            alarmeService.agendarMedicamento(idAlarme, m, nome, historicoAlarmes);
                         }
                     }
                     pessoas.add(idoso);
                 } else if (tipo.equals("Cuidador")) {
                     Cuidador cuidador = new Cuidador(nome, idade, telefone);
-                    // Processa idosos associados (a partir do índice 4)
-                    // Nota: Aqui precisaríamos buscar os idosos já carregados
-                    // Para simplificar, guardamos os nomes para associação posterior
                     pessoas.add(cuidador);
                 }
             }

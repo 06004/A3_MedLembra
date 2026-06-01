@@ -2,6 +2,7 @@ package view;
 
 import controller.PessoaController;
 import exception.*;
+import java.util.List;
 import java.util.Scanner;
 import model.*;
 import util.Validador;
@@ -24,7 +25,11 @@ public class MenuPrincipal {
 
         do {
             System.out.println("\n=== MEDLEMBRA ===");
-            System.out.println("Sistema de Lembretes de Medicamentos\n");
+            System.out.println("Sistema de Lembretes de Medicamentos");
+
+            // MELHORIA: Contador de pessoas no menu principal
+            System.out.println("👤 Idosos: " + controller.totalIdosos()
+                    + " | 🧑‍⚕️ Cuidadores: " + controller.totalCuidadores() + "\n");
 
             for (OpcaoMenu op : OpcaoMenu.values()) {
                 System.out.println(op.getCodigo() + " - " + op.getDescricao());
@@ -32,7 +37,7 @@ public class MenuPrincipal {
 
             System.out.print("\nEscolha uma opção: ");
             codigo = lerInteiro();
-            sc.nextLine(); // consome quebra de linha
+            sc.nextLine();
 
             OpcaoMenu opcao = OpcaoMenu.fromCodigo(codigo);
 
@@ -43,15 +48,16 @@ public class MenuPrincipal {
 
             try {
                 switch (opcao) {
-                    case GERENCIAR_IDOSOS -> menuIdosos();
-                    case GERENCIAR_CUIDADORES -> menuCuidadores();
-                    case MEDICAMENTOS -> menuMedicamentos();
-                    case ASSOCIAR -> associarCuidadorIdoso();
-                    case LISTAR_TODOS -> listarTodasPessoas();
-                    case REMOVER -> removerPessoa();
-                    case SALVAR_DADOS -> salvarDados();
-                    case CARREGAR_DADOS -> carregarDados();
-                    case SAIR -> System.out.println("👋 Saindo do MedLembra...");
+                    case GERENCIAR_IDOSOS      -> menuIdosos();
+                    case GERENCIAR_CUIDADORES  -> menuCuidadores();
+                    case MEDICAMENTOS          -> menuMedicamentos();
+                    case ASSOCIAR              -> associarCuidadorIdoso();
+                    case LISTAR_TODOS          -> listarTodasPessoas();
+                    case REMOVER               -> removerPessoa();
+                    case HISTORICO_ALARMES     -> verHistoricoAlarmes();
+                    case SALVAR_DADOS          -> salvarDados();
+                    case CARREGAR_DADOS        -> carregarDados();
+                    case SAIR                  -> System.out.println("👋 Saindo do MedLembra...");
                 }
             } catch (Exception e) {
                 System.out.println("❌ Erro: " + e.getMessage());
@@ -171,12 +177,14 @@ public class MenuPrincipal {
         System.out.println("\n--- Gerenciamento de Medicamentos ---");
         System.out.println("1 - Adicionar medicamento a um idoso");
         System.out.println("2 - Listar medicamentos de um idoso");
+        System.out.println("3 - Remover medicamento de um idoso");  // MELHORIA
         System.out.print("Escolha: ");
         int op = lerInteiro(); sc.nextLine();
 
         switch (op) {
             case 1 -> adicionarMedicamento();
             case 2 -> listarMedicamentosPorIdoso();
+            case 3 -> removerMedicamento();  // MELHORIA
             default -> System.out.println("Opção inválida.");
         }
     }
@@ -223,6 +231,20 @@ public class MenuPrincipal {
         }
     }
 
+    // MELHORIA: Remover medicamento
+    private void removerMedicamento() {
+        try {
+            System.out.print("Nome do idoso: ");
+            String nomeIdoso = sc.nextLine();
+            System.out.print("Nome do medicamento a remover: ");
+            String nomeMed = sc.nextLine();
+            controller.removerMedicamento(nomeIdoso, nomeMed);
+            System.out.println("✅ Medicamento removido com sucesso!");
+        } catch (PessoaNaoEncontradaException e) {
+            System.out.println("❌ Erro: " + e.getMessage());
+        }
+    }
+
     // ==================== ASSOCIAR ====================
     private void associarCuidadorIdoso() {
         try {
@@ -253,10 +275,32 @@ public class MenuPrincipal {
         try {
             System.out.print("Nome da pessoa a remover: ");
             String nome = sc.nextLine();
+
+            // MELHORIA: Confirmação antes de remover
+            Pessoa p = controller.buscarPorNome(nome);
+            System.out.println("⚠️  Deseja remover " + p.getNome() + "? (s/n): ");
+            String confirmacao = sc.nextLine().trim();
+
+            if (!confirmacao.equalsIgnoreCase("s")) {
+                System.out.println("ℹ️  Remoção cancelada.");
+                return;
+            }
+
             controller.removerPessoa(nome);
             System.out.println("✅ Pessoa removida com sucesso.");
         } catch (PessoaNaoEncontradaException e) {
             System.out.println("❌ Erro: " + e.getMessage());
+        }
+    }
+
+    // MELHORIA: Histórico de alarmes disparados
+    private void verHistoricoAlarmes() {
+        System.out.println("\n--- HISTÓRICO DE ALARMES DISPARADOS ---");
+        List<String> historico = controller.getHistoricoAlarmes();
+        if (historico.isEmpty()) {
+            System.out.println("Nenhum alarme disparado ainda.");
+        } else {
+            historico.forEach(h -> System.out.println("• " + h));
         }
     }
 

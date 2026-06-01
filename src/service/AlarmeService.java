@@ -1,6 +1,9 @@
 package service;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 import model.Medicamento;
@@ -17,18 +20,13 @@ public class AlarmeService {
         }
     }
 
-    // Formatador para converter horários de String para LocalTime
     private final FormatadorAlarme formatador = new FormatadorAlarme();
-
-    // Scheduler para agendamento de tarefas
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(5);
-
-    // Mapa para manter referência dos alarmes agendados (id -> tarefa)
     private final Map<String, ScheduledFuture<?>> alarmes = new ConcurrentHashMap<>();
+    private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
-    // Método para verificar o medicamento e agendar alarme
-    public void agendarMedicamento(String id, Medicamento m, String nomeIdoso) {
-
+    // MELHORIA: Recebe lista de histórico para registrar quando o alarme disparar
+    public void agendarMedicamento(String id, Medicamento m, String nomeIdoso, List<String> historico) {
         LocalTime horario = formatador.converterHorario(m.getHorario());
 
         if (horario == null) {
@@ -37,21 +35,25 @@ public class AlarmeService {
         }
 
         long delay = calcularDelayEmSegundos(horario);
-
         AlarmeInfo info = new AlarmeInfo(m, nomeIdoso);
 
         ScheduledFuture<?> tarefa = scheduler.schedule(() -> {
+            String registro = LocalDateTime.now().format(FMT)
+                    + " | ⏰ " + info.m.getNome() + " para " + info.nomeIdoso;
             System.out.println("⏰ Hora do medicamento: " + info.m.getNome() + " para " + info.nomeIdoso);
+
+            // MELHORIA: Registra no histórico
+            if (historico != null) {
+                historico.add(registro);
+            }
             alarmes.remove(id);
         }, delay, TimeUnit.SECONDS);
 
         alarmes.put(id, tarefa);
     }
 
-    // Método para cancelar um alarme agendado
     public void cancelarAlarme(String id) {
         ScheduledFuture<?> tarefa = alarmes.remove(id);
-
         if (tarefa != null) {
             tarefa.cancel(false);
             System.out.println("Alarme cancelado: " + id);
@@ -60,24 +62,12 @@ public class AlarmeService {
         }
     }
 
-    // Método para calcular o tempo (delay) em segundos até o horário do medicamento
     private long calcularDelayEmSegundos(LocalTime horario) {
-
-        // Obtém o horário atual
         LocalTime agora = LocalTime.now();
-
-        // Converte ambos os horários para segundos do dia
-        long segundosAgora = agora.toSecondOfDay();
-        long segundosAlvo = horario.toSecondOfDay();
-
-        // Calcula o tempo (delay) em segundos, considerando a possibilidade de o horário alvo ser no dia seguinte
-        long delay = segundosAlvo - segundosAgora;
-
-        // Se o horário alvo já passou, ajusta para o próximo dia
+        long delay = horario.toSecondOfDay() - agora.toSecondOfDay();
         if (delay < 0) {
             delay += 24 * 60 * 60;
         }
-
         return delay;
     }
 }
